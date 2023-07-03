@@ -134,4 +134,6 @@ void loop()
 //    colors[0] = constrain(x, 0, 255);
 
     //delay(5);
+    Serial.print("This is a message");
+    delay(100);
 }
