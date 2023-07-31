@@ -3,20 +3,20 @@
 #include "other/utils.h"
 #include "controllers/effectController.h"
 #include "controllers/inputController.h"
-
-InputController inputController;
-EffectController effectController;
+#include "devices.h"
 
 void setup()
 {
 	Serial.begin(9600);
 	Serial.flush();
+
+	Devices::getInstance().initAll();
 }
 
 void loop()
 {
-	inputController.update();
-	effectController.update();
+	InputController::getInstance().update();
+	EffectController::getInstance().update();
 
 	delay(50);
 }

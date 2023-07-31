@@ -1,30 +1,32 @@
 #include <Arduino.h>
 #include "effects/effect.h"
 
-#include <Adafruit_NeoPixel.h>
-#include <Adafruit_NeoMatrix.h>
+#pragma once
 
 class EffectController{
 
 	public:
-		Adafruit_NeoPixel strips[4];
-
-		//NeoMatrix doesn't provide a default constructor, so this has to go here
-		Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(32, 8, D0,
-  							NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
-  							NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
-  							NEO_GRB            + NEO_KHZ800);
-
-		const int stripLength = 150;
+		Effect effects[10];
 
 	public:
-		EffectController();
+
+	  // Static method for access to class instance
+    static EffectController& getInstance() {
+        static EffectController instance; // Guaranteed to be destroyed and instantiated on first use.
+        return instance;
+    }
 
 		void update();
 
 		void removeExpired();
-		void initAll();
 		void clearAll();
 		void showAll();
+		bool registerEffect(Effect &effect);
 
+	private:
+		// Private Constructor
+		EffectController(){};
+		// Prevent copy constructor and assignment operator
+    EffectController(const EffectController&) = delete;  // No copy constructor
+    EffectController& operator=(const EffectController&) = delete;  // No assignment operator
 };
