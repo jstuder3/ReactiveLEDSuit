@@ -8,15 +8,15 @@ class ScanWave : public Effect {
 	public:
 		const float speed = 30;
 		const float tailLength = 15;
-		const Color color{50, 50, 50};
+		const Color color{50, 0, 0};
 
 	public:
-		ScanWave() : Effect("ScanWave") {
+		ScanWave(Adafruit_NeoPixel* strip) : Effect("ScanWave", strip) {
 			infiniteDuration = true;
 		}
 
 		void update() override {
-				float floatPosition = fmod(((millis()-startTime) / 1000.f) * speed, Devices::getInstance().numStripLEDs);
+				float floatPosition = fmod(((millis()-startTime) / 1000.f) * speed, (strip->numPixels()+tailLength));
 
 				int head = min(ceil(floatPosition), Devices::getInstance().numStripLEDs);
 				int tail = max(floor(floatPosition-tailLength), 0);
@@ -30,7 +30,7 @@ class ScanWave : public Effect {
 						multiplier = square(1.f - (distanceToActualPosition/tailLength));
 					}
 
-					Devices::getInstance().strips[0]->setPixelColor(i, int(multiplier * color.r), int(multiplier*color.g), int(multiplier * color.b));
+					strip->setPixelColor(i, int(multiplier * color.r), int(multiplier*color.g), int(multiplier * color.b));
 
 
 				}

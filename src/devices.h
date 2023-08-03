@@ -51,6 +51,7 @@ class Devices {
 
 				for(auto& strip : strips){
 					strip->begin();
+					strip->setBrightness(255);
 					strip->clear();
 					strip->show();
 				}

@@ -2,7 +2,7 @@
 #include "effects/effect.h"
 
 #pragma once
-#define MAX_EFFECTS 5
+#define MAX_EFFECTS 10
 
 class EffectController{
 
@@ -18,7 +18,6 @@ class EffectController{
     }
 
 		void update();
-
 		void clearAll();
 		void showAll();
 		bool registerEffect(Effect* effect);

@@ -7,21 +7,21 @@ class Blinking : public Effect {
 
 	public:
 
-		unsigned long onDuration = 150;
+		unsigned long onDuration = 100;
 		unsigned long offDuration = 900;
 		unsigned long totalDuration = onDuration + offDuration;
-		Color color{100, 100, 100};
+		Color color{0, 0, 50};
 
 	public:
-		Blinking() : Effect("Blinking") {
+		Blinking(Adafruit_NeoPixel* strip) : Effect("Blinking", strip) {
 			infiniteDuration = true;
 		}
 
 		void update() override {
 			//Serial.println(millis() % totalDuration < onDuration);
-			if(millis() % totalDuration < onDuration){
-				for(int i = 0; i < 10; i++){
-					Devices::getInstance().strips[0]->setPixelColor(i, color.r, color.g, color.b);
+			if((millis()-startTime) % totalDuration < onDuration){
+				for(int i = 0; i < strip->numPixels(); i++){
+					strip->setPixelColor(i, color.r, color.g, color.b);
 				}
 			}
 			else{

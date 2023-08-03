@@ -18,9 +18,29 @@ void setup()
 
 	Devices::getInstance().initAll();
 
-	//EffectController::getInstance().registerEffect(new Blinking());
-	EffectController::getInstance().registerEffect(new ScanWave());
+	EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[0]));
+	delay(2000);
+	EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[0]));
+	delay(2000);
+	EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[0]));
 
+
+	/*EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[1]));
+	delay(200);
+	EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[1]));*/
+
+	/*delay(200);
+	EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[0]));
+	/*delay(400);
+		EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[1]));
+	delay(2000);
+	EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[1]));
+
+
+	EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[1]));
+	delay(200);
+	EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[1]));
+*/
 
 }
 
