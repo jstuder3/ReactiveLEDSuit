@@ -6,9 +6,9 @@
 class ScanWave : public Effect {
 
 	public:
-		const float speed = 50;
-		const float tailLength = 50;
-		const Color color{0, 255, 0};
+		const float speed = 30;
+		const float tailLength = 15;
+		const Color color{50, 50, 50};
 
 	public:
 		ScanWave() : Effect("ScanWave") {
@@ -20,7 +20,7 @@ class ScanWave : public Effect {
 
 				int head = min(ceil(floatPosition), Devices::getInstance().numStripLEDs);
 				int tail = max(floor(floatPosition-tailLength), 0);
-				for(int i = head; i > tail; i--){
+				for(int i = head; i >= tail; i--){
 					float distanceToActualPosition = abs((float)i - floatPosition);
 					float multiplier;
 					if(i == head){
