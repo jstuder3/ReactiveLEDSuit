@@ -3,21 +3,38 @@
 #include <Adafruit_NeoPixel.h>
 #include "devices.h"
 
-class ScanWave : Effect {
+class ScanWave : public Effect {
 
 	public:
-		const float speed = 20;
-		const Color color{255, 255, 255};
+		const float speed = 50;
+		const float tailLength = 50;
+		const Color color{0, 255, 0};
 
 	public:
-		ScanWave() : Effect() {};
-		ScanWave(MixingMode mixingMode) : Effect("ScanWave", mixingMode){}
-
-		void update() {
-				int position = int(floor(millis()-startTime * speed)) % Devices::getInstance().stripLEDs;
-				for(auto strip : Devices::getInstance().strips){
-					strip.setPixelColor(position, color.r, color.g, color.b);
-				}
+		ScanWave() : Effect("ScanWave") {
+			infiniteDuration = true;
 		}
 
+		void update() override {
+				float floatPosition = fmod(((millis()-startTime) / 1000.f) * speed, Devices::getInstance().numStripLEDs);
+
+				int head = min(ceil(floatPosition), Devices::getInstance().numStripLEDs);
+				int tail = max(floor(floatPosition-tailLength), 0);
+				for(int i = head; i > tail; i--){
+					float distanceToActualPosition = abs((float)i - floatPosition);
+					float multiplier;
+					if(i == head){
+						multiplier = square(1.f - distanceToActualPosition);
+					}
+					else{
+						multiplier = square(1.f - (distanceToActualPosition/tailLength));
+					}
+
+					Devices::getInstance().strips[0]->setPixelColor(i, int(multiplier * color.r), int(multiplier*color.g), int(multiplier * color.b));
+
+
+				}
+		}
+/*
+		*/
 };

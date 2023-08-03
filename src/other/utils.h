@@ -14,8 +14,8 @@ enum Device{
 };
 
 enum MixingMode {
-	additive,
-	multiplicative
+	Additive,
+	Multiplicative
 };
 
 class Utils {

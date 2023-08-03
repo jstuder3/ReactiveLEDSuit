@@ -20,7 +20,19 @@
 			"array": "cpp",
 			"string_view": "cpp",
 			"initializer_list": "cpp",
-			"ranges": "cpp"
+			"ranges": "cpp",
+			"atomic": "cpp",
+			"chrono": "cpp",
+			"iterator": "cpp",
+			"memory_resource": "cpp",
+			"optional": "cpp",
+			"functional": "cpp",
+			"new": "cpp",
+			"ostream": "cpp",
+			"stdexcept": "cpp",
+			"streambuf": "cpp",
+			"tuple": "cpp",
+			"variant": "cpp"
 		}
 	}
 }

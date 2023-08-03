@@ -5,30 +5,31 @@
 #include "devices.h"
 
 void EffectController::update(){
-	Serial.println("Updated EffectController");
+	//Serial.println("Updated EffectController");
 
 	//do something with the LEDs here
 
-	for(auto effect : effects){
-		if(effect.isActive()){
-			effect.update();
+	clearAll();
+
+	for(int i = 0; i < MAX_EFFECTS; i++){
+		if(effects[i] && effects[i]->isActive()){
+			effects[i]->update();
+			//Serial.println(effects[i]->name);
 		}
 	}
 
-	for(int i = 0; i < Devices::getInstance().stripLEDs; i++){
-		Devices::getInstance().strips[0].setPixelColor(i, 255, 255, 255);
-	}
+	showAll();
 
-	delay(500);
-
-	for(int i = 0; i < Devices::getInstance().stripLEDs; i++){
-		Devices::getInstance().strips[0].setPixelColor(i, 0, 0, 0);
-	}
 }
 
-bool EffectController::registerEffect(Effect &effect){
-	for(uint8_t i = 0; i < sizeof(effects)/sizeof(Effect); i++){
-		if(!effects[i].isActive()){
+bool EffectController::registerEffect(Effect* effect){
+	for(int i = 0; i < MAX_EFFECTS; i++){
+		if(!effects[i]){
+			effects[i] = effect;
+			return true;
+		}
+		else if(!effects[i]->isActive()){
+			delete effects[i];
 			effects[i] = effect;
 			return true;
 		}
@@ -38,16 +39,16 @@ bool EffectController::registerEffect(Effect &effect){
 }
 
 void EffectController::clearAll(){
-	for(auto strip : Devices::getInstance().strips){
-		strip.clear();
+	for(Adafruit_NeoPixel* strip : Devices::getInstance().strips){
+		strip->clear();
 	}
 	Devices::getInstance().matrix->clear();
 }
 
 void EffectController::showAll(){
 
-	for(auto strip : Devices::getInstance().strips){
-		strip.show();
+	for(Adafruit_NeoPixel* strip : Devices::getInstance().strips){
+		strip->show();
 	}
 	Devices::getInstance().matrix->show();
 }

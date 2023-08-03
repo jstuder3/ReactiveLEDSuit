@@ -2,11 +2,12 @@
 #include "effects/effect.h"
 
 #pragma once
+#define MAX_EFFECTS 5
 
 class EffectController{
 
 	public:
-		Effect effects[10];
+		Effect* effects[MAX_EFFECTS];
 
 	public:
 
@@ -18,10 +19,9 @@ class EffectController{
 
 		void update();
 
-		void removeExpired();
 		void clearAll();
 		void showAll();
-		bool registerEffect(Effect &effect);
+		bool registerEffect(Effect* effect);
 
 	private:
 		// Private Constructor
@@ -29,4 +29,5 @@ class EffectController{
 		// Prevent copy constructor and assignment operator
     EffectController(const EffectController&) = delete;  // No copy constructor
     EffectController& operator=(const EffectController&) = delete;  // No assignment operator
+
 };

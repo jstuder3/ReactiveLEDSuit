@@ -11,11 +11,13 @@ class InputController {
         return instance;
     }
 
-		static void update(){Serial.println("Updated InputController");};
+		void update(){
+			//Serial.println("Updated InputController");
+		};
 
 	private:
 		// Private Constructor
-    InputController() {}
+    InputController() {};
     // Prevent copy constructor and assignment operator
     InputController(const InputController&) = delete;  // No copy constructor
     InputController& operator=(const InputController&) = delete;  // No assignment operator
