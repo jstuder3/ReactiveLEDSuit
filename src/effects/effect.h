@@ -3,6 +3,13 @@
 
 #pragma once
 
+struct EffectConfiguration{
+	unsigned long startTimeOffset = 0;
+	unsigned long duration;
+	Adafruit_NeoPixel* strip;
+	Adafruit_NeoMatrix* matrix;
+};
+
 class Effect{
 
 	public:
@@ -15,10 +22,18 @@ class Effect{
 		Adafruit_NeoMatrix* matrix;
 
 	public:
-		Effect(){} // : startTime(millis()), endTime((unsigned long)-1) {} //set endTime to maxvalue of unsigned long
+		Effect(){}
+		
+		Effect(EffectConfiguration& config) : strip(config.strip), matrix(config.matrix) {
+			startTime = millis() + config.startTimeOffset;
+			endTime = startTime + config.duration;
+		}
+
 		Effect(String name) : name(name), startTime(millis()) {}
 		Effect(String name, Adafruit_NeoPixel* strip) : name(name), strip(strip), startTime(millis()) {}
 		Effect(String name, Adafruit_NeoMatrix* matrix) : name(name), matrix(matrix), startTime(millis()) {}
+
+		Effect(String name, Adafruit_NeoPixel* strip, unsigned long startOffset) : name(name), strip(strip), startTime(millis()) {}
 
 		virtual void update() {
 			Serial.println("Updating in Effect.h. This should not happen. Make sure to add 'override' to the update function of your effect!");

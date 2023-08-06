@@ -20,7 +20,7 @@ class Blinking : public Effect {
 		void update() override {
 			//Serial.println(millis() % totalDuration < onDuration);
 			if((millis()-startTime) % totalDuration < onDuration){
-				for(int i = 0; i < strip->numPixels(); i++){
+				for(int i = 0; i < NUM_LEDS_PER_STRIP; i++){
 					strip->setPixelColor(i, color.r, color.g, color.b);
 				}
 			}

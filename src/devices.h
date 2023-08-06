@@ -23,26 +23,29 @@
 	#define MATRIX_PIN_0 D0
 #endif
 
+#define NUM_LED_STRIPS 4
+#define NUM_LEDS_PER_STRIP 60
+
 class Devices {
 		public:
-			Adafruit_NeoPixel* strips[4];
-			const int numStripLEDs = 150;
+			Adafruit_NeoPixel* strips[NUM_LED_STRIPS];
+			uint8_t leftStrips[NUM_LED_STRIPS / 2] = {0, 1};
+			uint8_t rightStrips[NUM_LED_STRIPS / 2] = {2, 3};
 
-			//NeoMatrix doesn't provide a default constructor, so we make this as a pointer
 			Adafruit_NeoMatrix* matrix;
 
 		public:
 
 			static Devices& getInstance() {
-        static Devices instance; // Guaranteed to be destroyed and instantiated on first use.
-        return instance;
+				static Devices instance; // Guaranteed to be destroyed and instantiated on first use.
+				return instance;
     	}
 
 			void initAll(){
-				strips[0] = new Adafruit_NeoPixel(numStripLEDs, STRIP_PIN_0, NEO_GRB + NEO_KHZ800);
-				strips[1] = new Adafruit_NeoPixel(numStripLEDs, STRIP_PIN_1, NEO_GRB + NEO_KHZ800);
-				strips[2] = new Adafruit_NeoPixel(numStripLEDs, STRIP_PIN_2, NEO_GRB + NEO_KHZ800);
-				strips[3] = new Adafruit_NeoPixel(numStripLEDs, STRIP_PIN_3, NEO_GRB + NEO_KHZ800);
+				strips[0] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_0, NEO_GRB + NEO_KHZ800);
+				strips[1] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_1, NEO_GRB + NEO_KHZ800);
+				strips[2] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_2, NEO_GRB + NEO_KHZ800);
+				strips[3] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_3, NEO_GRB + NEO_KHZ800);
 
 				matrix = new Adafruit_NeoMatrix(32, 8, MATRIX_PIN_0,
 											NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
@@ -57,7 +60,7 @@ class Devices {
 				}
 				matrix->begin();
 
-				matrix->setTextWrap(false);
+				matrix->setTextWrap(true);
 				matrix->setBrightness(255); // Adjust brightness as necessary
 
 			}

@@ -2,7 +2,7 @@
 #include "effects/effect.h"
 
 #pragma once
-#define MAX_EFFECTS 10
+#define MAX_EFFECTS 20
 
 class EffectController{
 

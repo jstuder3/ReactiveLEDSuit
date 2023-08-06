@@ -18,6 +18,18 @@ enum MixingMode {
 	Multiplicative
 };
 
+enum WaveOrigin{
+	RightHand,
+	LeftHand,
+	RightFoot,
+	LeftFoot
+};
+
+enum PlayDirection{
+	Forward,
+	Backward
+};
+
 class Utils {
 
 	public:
