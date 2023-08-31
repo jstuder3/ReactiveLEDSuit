@@ -1,8 +1,7 @@
-#include <Arduino.h>
+/*#include <Arduino.h>
 #include "input/sensors.h"
 
 #include <Wire.h>
-#include <MPU6050_light.h>
 
 Sensors::Sensors(){
     Wire.begin();
@@ -59,3 +58,4 @@ void Sensors::updateGravity(float ax, float ay, float az)
 	gravity[1] = alpha * gravity[1] + (1 - alpha) * ay;
 	gravity[2] = alpha * gravity[2] + (1 - alpha) * az;
 }
+*/

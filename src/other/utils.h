@@ -18,7 +18,7 @@ enum MixingMode {
 	Multiplicative
 };
 
-enum WaveOrigin{
+enum ActivationOrigin{
 	RightHand,
 	LeftHand,
 	RightFoot,

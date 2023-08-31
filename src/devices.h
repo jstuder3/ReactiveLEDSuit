@@ -4,6 +4,7 @@
 #include <Adafruit_NeoMatrix.h>
 #include <MPUCustom.h>
 #include <Wire.h>
+#include "other/utils.h"
 
 #pragma once
 
@@ -49,6 +50,7 @@ class Devices {
 
 			MPUCustom* mpus[NUM_MPUS];
 			int mpu_addresses[2] = {0x68, 0x69};
+			ActivationOrigin origins[2] = {ActivationOrigin::RightHand, ActivationOrigin::LeftHand};
 
 		public:
 
@@ -85,7 +87,7 @@ class Devices {
 				// SENSOR STUFF
 				
 				for(int i = 0; i < NUM_MPUS; i++){
-					mpus[i]= new MPUCustom(Wire, mpu_addresses[i]);
+					mpus[i]= new MPUCustom(Wire, mpu_addresses[i], origins[i]);
 					mpus[i]->begin(2); // set value range to +/- [2, 4, 8, 16] g
 				}
 				

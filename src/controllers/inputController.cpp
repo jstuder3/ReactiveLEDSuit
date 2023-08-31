@@ -1,5 +1,9 @@
 #include "controllers/inputController.h"
 #include "devices.h"
+#include "effectController.h"
+#include "effects/punchWave.h"
+
+#pragma once
 
 void InputController::update(){
 
@@ -16,7 +20,7 @@ void InputController::update(){
                 Serial.println(" activated");
                 lastActivation[i] = millis();
 
-                
+                EffectController::getInstance().registerEffect(new PunchWave(mpu->getActivationOrigin()));
                 
             }
         }

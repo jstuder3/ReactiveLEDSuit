@@ -28,8 +28,9 @@ void setup()
 
 	Devices::getInstance().initAll();
 
-	//EffectController::getInstance().registerEffect(new PunchWave(WaveOrigin::Left));
-
+	//EffectController::getInstance().registerEffect(new PunchWave(ActivationOrigin::Left));
+	
+	/*
 	EffectConfiguration config = EffectConfiguration();
 
 	config.strip = Devices::getInstance().strips[0];
@@ -42,7 +43,7 @@ void setup()
 	for(int i = 0; i < 5; i++){
 		config.startTimeOffset = i * 1000UL; //random(0UL, 20000UL);
 		EffectController::getInstance().registerEffect(new ScanWave(config));
-	}
+	}*/
 
 	/*EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[1]));
 	delay(200);

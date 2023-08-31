@@ -19,6 +19,7 @@
 
 #include "Arduino.h"
 #include "Wire.h"
+#include "other/utils.h"
 
 #define MPU6050_SMPLRT_DIV_REGISTER   0x19
 #define MPU6050_CONFIG_REGISTER       0x1a
@@ -34,7 +35,7 @@
 class MPUCustom{
   public:
     // INIT and BASIC FUNCTIONS
-	MPUCustom(TwoWire &w, int mpu_addr);
+	MPUCustom(TwoWire &w, int mpu_addr, ActivationOrigin activationOrigin) : wire(&w), mpu_addr(mpu_addr), activationOrigin(activationOrigin) {};
     byte begin(int acc_config_num=0);
 	
 	byte writeData(byte reg, byte data);
@@ -50,6 +51,7 @@ class MPUCustom{
     float getTotalAcc() { return totalAcc; };
     float getWeaklySmoothedTotalAcc() { return weaklySmoothedTotalAcc; };
     float getStronglySmoothedTotalAcc() { return stronglySmoothedTotalAcc; };
+    ActivationOrigin getActivationOrigin() { return activationOrigin; };
 
 	// INLOOP UPDATE
     void update();
@@ -61,4 +63,5 @@ class MPUCustom{
 	float acc_divisor;
     float accX, accY, accZ, totalAcc;
     float weaklySmoothedTotalAcc, stronglySmoothedTotalAcc;
+    ActivationOrigin activationOrigin;
 };

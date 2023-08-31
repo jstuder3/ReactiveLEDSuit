@@ -1,8 +1,7 @@
-
+/*
 #include <Arduino.h>
 
 #include <Wire.h>
-#include <MPU6050_light.h>
 
 class Sensors{
 	private:
@@ -18,3 +17,4 @@ class Sensors{
 		void update();
 		void updateGravity(float ax, float ay, float az);
 };
+*/

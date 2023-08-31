@@ -9,8 +9,6 @@
 
 /* INIT and BASIC FUNCTIONS */
 
-MPUCustom::MPUCustom(TwoWire &w, int mpu_addr) : wire(&w), mpu_addr(mpu_addr) {}
-
 byte MPUCustom::begin(int acc_config_num){
   writeData(MPU6050_SMPLRT_DIV_REGISTER, 0x00);
   writeData(MPU6050_CONFIG_REGISTER, 0x00);

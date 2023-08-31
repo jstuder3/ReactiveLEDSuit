@@ -12,15 +12,16 @@ class PunchWave : public Effect {
 
 		const int armLength = 30;
 		const int armLengthSquared = armLength * armLength;
-		WaveOrigin origin;
+		ActivationOrigin origin;
 
-		const float speed = 250.f;
+		const float speed = 50.f;
 		const float effectWidth = 10.f;
 
 	public:
 
-		PunchWave(WaveOrigin origin) : Effect("PunchWave"), origin(origin) {
-			infiniteDuration = true;
+		PunchWave(ActivationOrigin origin) : Effect("PunchWave"), origin(origin) {
+			infiniteDuration = false;
+			endTime = millis() + (NUM_LEDS_PER_STRIP) / speed * 1000.f;
 			
 			Serial.println("Starting PunchWave precomputation!");
 			precomputeWave();
@@ -39,14 +40,14 @@ class PunchWave : public Effect {
 			//pointer to array of uint8_t
 			uint8_t (*updateSteps)[NUM_LEDS_PER_STRIP];
 
-			if(origin == WaveOrigin::RightHand){
+			if(origin == ActivationOrigin::RightHand){
 				updateSteps = rightWaveUpdateSteps;
 			}
 			else{
 				updateSteps = leftWaveUpdateSteps;
 			}
 
-			const float progress = fmod(((millis()-startTime) / 1000.f) * speed, NUM_LEDS_PER_STRIP + 200);
+			const float progress = constrain(((millis()-startTime) / 1000.f) * speed, 0, NUM_LEDS_PER_STRIP);
 
 			for(int i = 0; i < NUM_LED_STRIPS; i++){
 				for(int j = 0; j < NUM_LEDS_PER_STRIP; j++){
@@ -94,6 +95,30 @@ class PunchWave : public Effect {
 
 			// # RIGHT #
 
+			//pre-shoulder, right punch
+			for(int i = 0; i <= armLength; i++){
+				
+				for(int j : Devices::getInstance().rightStrips)
+					rightWaveUpdateSteps[j][i] = i; 
+
+				for(int j : Devices::getInstance().leftStrips)
+					rightWaveUpdateSteps[j][armLength - i] = armLength + i + NUM_LED_STRIPS / 2; //delay everything a bit so it looks like the wave "traverses" the torso
+
+			}
+
+			//post-shoulder / torso, right punch
+			for(int i = 0; i < NUM_LEDS_PER_STRIP - armLength; i++){
+
+				const int rightDistance = i + armLength;//floor(sqrt(i * i + armLengthSquared));
+				const int leftDistance = (i+1) + armLength + NUM_LED_STRIPS / 2;//floor(sqrt((i+1) * (i+1) + armLengthSquared));
+
+				for(int j : Devices::getInstance().leftStrips)
+					rightWaveUpdateSteps[j][i + armLength] = rightDistance;
+
+				for(int j : Devices::getInstance().rightStrips)
+					rightWaveUpdateSteps[j][i + armLength] = leftDistance;
+
+			}
 
 
 		}
