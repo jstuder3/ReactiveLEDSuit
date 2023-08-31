@@ -2,6 +2,8 @@
 
 #include <Adafruit_NeoPixel.h>
 #include <Adafruit_NeoMatrix.h>
+#include <MPUCustom.h>
+#include <Wire.h>
 
 #pragma once
 
@@ -23,8 +25,17 @@
 	#define MATRIX_PIN_0 D0
 #endif
 
+#ifdef ESP_32
+	#define STRIP_PIN_0 GPIO_NUM_32
+	#define STRIP_PIN_1 GPIO_NUM_33
+	#define STRIP_PIN_2 GPIO_NUM_25
+	#define STRIP_PIN_3 GPIO_NUM_26
+	#define MATRIX_PIN_0 GPIO_NUM_27
+#endif
+
 #define NUM_LED_STRIPS 4
 #define NUM_LEDS_PER_STRIP 60
+#define NUM_MPUS 1
 
 class Devices {
 		public:
@@ -34,6 +45,11 @@ class Devices {
 
 			Adafruit_NeoMatrix* matrix;
 
+			//MPU* mpus[NUM_MPUS];
+
+			MPUCustom* mpus[NUM_MPUS];
+			int mpu_addresses[2] = {0x68, 0x69};
+
 		public:
 
 			static Devices& getInstance() {
@@ -42,6 +58,9 @@ class Devices {
     	}
 
 			void initAll(){
+
+				// LED STUFF
+
 				strips[0] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_0, NEO_GRB + NEO_KHZ800);
 				strips[1] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_1, NEO_GRB + NEO_KHZ800);
 				strips[2] = new Adafruit_NeoPixel(NUM_LEDS_PER_STRIP, STRIP_PIN_2, NEO_GRB + NEO_KHZ800);
@@ -63,15 +82,31 @@ class Devices {
 				matrix->setTextWrap(true);
 				matrix->setBrightness(255); // Adjust brightness as necessary
 
+				// SENSOR STUFF
+				
+				for(int i = 0; i < NUM_MPUS; i++){
+					mpus[i]= new MPUCustom(Wire, mpu_addresses[i]);
+					mpus[i]->begin(2); // set value range to +/- [2, 4, 8, 16] g
+				}
+				
 			}
 
-	private:
-		// Private Constructor
-    /*Devices() {};
+	void updateSensors(){
 
-		// Prevent copy constructor and assignment operator
-		Devices(const Devices&) = delete;  // No copy constructor
-    Devices& operator=(const Devices&) = delete;  // No assignment operator
-		*/
+		for(MPUCustom* mpu : mpus){
+			mpu->update();
+
+			/*
+			float ax = mpu->getAccX();
+			float ay = mpu->getAccY();
+			float az = mpu->getAccZ();
+			float tot = mpu->getTotalAcc();
+			float ws_tot = mpu->getWeaklySmoothedTotalAcc();
+			float ss_tot = mpu->getStronglySmoothedTotalAcc();
+			String printval = "ax:" + String(ax) + ",ay:" + String(ay) + ",az:" + String(az) + ",tot:" + String(tot) + ",ws_tot:" + String(ws_tot) + ",ss_tot:" + String(ss_tot);
+			Serial.println(printval);*/
+		}
+
+	}
 
 };

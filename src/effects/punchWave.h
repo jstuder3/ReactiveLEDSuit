@@ -26,7 +26,7 @@ class PunchWave : public Effect {
 			precomputeWave();
 			Serial.println("PunchWave precomputation done!");	
 
-			for(int i = 0; i< NUM_LEDS_PER_STRIP; i++){
+			for(int i = 0; i < NUM_LEDS_PER_STRIP; i++){
 				Serial.print(leftWaveUpdateSteps[0][i]);
 				Serial.print(" - ");
 			}
@@ -74,15 +74,15 @@ class PunchWave : public Effect {
 					leftWaveUpdateSteps[j][i] = i; 
 
 				for(int j : Devices::getInstance().rightStrips)
-					leftWaveUpdateSteps[j][armLength - i] = armLength + i; 
+					leftWaveUpdateSteps[j][armLength - i] = armLength + i + NUM_LED_STRIPS / 2; //delay everything a bit so it looks like the wave "traverses" the torso
 
 			}
 
-			//post-shoulder, left punch
+			//post-shoulder / torso, left punch
 			for(int i = 0; i < NUM_LEDS_PER_STRIP - armLength; i++){
 
 				const int leftDistance = i + armLength;//floor(sqrt(i * i + armLengthSquared));
-				const int rightDistance = (i+1) + armLength;//floor(sqrt((i+1) * (i+1) + armLengthSquared));
+				const int rightDistance = (i+1) + armLength + NUM_LED_STRIPS / 2;//floor(sqrt((i+1) * (i+1) + armLengthSquared));
 
 				for(int j : Devices::getInstance().leftStrips)
 					leftWaveUpdateSteps[j][i + armLength] = leftDistance;

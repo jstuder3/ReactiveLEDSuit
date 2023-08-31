@@ -4,6 +4,7 @@
         "*.tcc": "cpp",
         "algorithm": "cpp",
         "random": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "cmath": "cpp"
     }
 }

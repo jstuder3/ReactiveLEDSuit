@@ -8,16 +8,22 @@
 #include "effects/blinking.h"
 #include "effects/scanWave.h"
 #include "effects/punchWave.h"
+#include <Wire.h>
 
-float avgLoopDuration = 0.0f;
+float avgLoopDuration = 1.f;
 const float alpha = 0.95f;
 
 const bool printTimingInfo = false;
 unsigned long loopStart;
 
+int mpu_addr = 0x68;
+
 void setup()
 {
-	Serial.begin(9600);
+	Wire.begin();
+	Wire.setClock(400000UL); // Set I2C frequency to 400kHz
+	
+	Serial.begin(115200);
 	Serial.flush();
 
 	Devices::getInstance().initAll();
@@ -45,7 +51,7 @@ void setup()
 	/*delay(200);
 	EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[0]));
 	delay(400);
-		EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[1]));
+	EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[1]));
 	delay(2000);
 	EffectController::getInstance().registerEffect(new ScanWave(Devices::getInstance().strips[1]));
 
@@ -69,7 +75,20 @@ void loop()
 	if(printTimingInfo){
 		float loopDuration = (millis() - loopStart);
 		avgLoopDuration = alpha * avgLoopDuration + (1.f-alpha) * loopDuration;
-		Serial.print("Possible updates per second: ");
-		Serial.println(1000.f/avgLoopDuration);
+		if(millis() % 20 == 0){
+			Serial.print("Possible updates per second: ");
+			Serial.println(1000.f/avgLoopDuration);
+		}
 	}
+/*
+	Serial.println("X: " + Devices::getInstance().getAccelX(mpu_addr));
+	Serial.println("Y: " + Devices::getInstance().getAccelY(mpu_addr));
+	Serial.println("Z: " + Devices::getInstance().getAccelZ(mpu_addr));
+	Serial.println();
+	Serial.println("---------------------------------");
+
+	Serial.println();
+
+	delay(50);*/
+
 }
