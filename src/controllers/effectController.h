@@ -21,6 +21,7 @@ class EffectController{
 		void clearAll();
 		void showAll();
 		bool registerEffect(Effect* effect);
+		void killAllEffects();
 
 	private:
 		// Private Constructor

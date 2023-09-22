@@ -8,6 +8,12 @@ struct Color {
   uint8_t b;
 };
 
+struct HSV {
+    float h; // Angle in degrees [0,360]
+    float s; // Percent [0,1]
+    float v; // Percent [0,1]
+};
+
 enum Device{
 	strips,
 	matrix
@@ -29,6 +35,8 @@ enum PlayDirection{
 	Forward,
 	Backward
 };
+
+
 
 class Utils {
 

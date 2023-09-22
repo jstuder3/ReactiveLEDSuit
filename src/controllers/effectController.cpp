@@ -38,6 +38,15 @@ bool EffectController::registerEffect(Effect* effect){
 	return false;
 }
 
+void EffectController::killAllEffects(){
+	for(int i = 0; i < MAX_EFFECTS; i++){
+		if(effects[i]){
+			delete effects[i];
+			effects[i] = nullptr;
+		}
+	}
+}
+
 void EffectController::clearAll(){
 	for(Adafruit_NeoPixel* strip : Devices::getInstance().strips){
 		strip->clear();

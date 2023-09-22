@@ -45,7 +45,7 @@
 
 #define NUM_LED_STRIPS 10
 #define NUM_LEDS_PER_STRIP 60
-#define NUM_MPUS 1
+#define NUM_MPUS 0
 
 class Devices {
 		public:
