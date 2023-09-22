@@ -13,8 +13,10 @@
 float avgLoopDuration = 1.f;
 const float alpha = 0.95f;
 
-const bool printTimingInfo = false;
+const bool printTimingInfo = true;
 unsigned long loopStart;
+unsigned long lastPrint = 0;
+unsigned long printInterval = 1000000;
 
 int mpu_addr = 0x68;
 
@@ -24,20 +26,26 @@ void setup()
 	Wire.setClock(400000UL); // Set I2C frequency to 400kHz
 	
 	Serial.begin(115200);
-	Serial.flush();
 
 	Devices::getInstance().initAll();
 
 	//EffectController::getInstance().registerEffect(new PunchWave(ActivationOrigin::Left));
 	
-	/*
-	EffectConfiguration config = EffectConfiguration();
+	/*for(int i = 0; i < NUM_LED_STRIPS; i++){
+		EffectController::getInstance().registerEffect(new Blinking(Devices::getInstance().strips[i]));
+	}*/
+
+	/*EffectConfiguration config = EffectConfiguration();
 
 	config.strip = Devices::getInstance().strips[0];
-	for(int i = 0; i < 5; i++){
+	for(int i = 0; i < NUM_LED_STRIPS; i++){
+		config.strip = Devices::getInstance().strips[i];
 		config.startTimeOffset = i * 1000UL; //random(0UL, 0);
 		EffectController::getInstance().registerEffect(new ScanWave(config));
-	}
+	}*/
+	
+
+	/*
 
 	config.strip = Devices::getInstance().strips[2];
 	for(int i = 0; i < 5; i++){
@@ -67,20 +75,23 @@ void setup()
 void loop()
 {
 	if(printTimingInfo){
-		loopStart = millis();
+		loopStart = micros();
 	}
 
+	Devices::getInstance().updateSensors();
 	InputController::getInstance().update();
 	EffectController::getInstance().update();
 
 	if(printTimingInfo){
-		float loopDuration = (millis() - loopStart);
+		float loopDuration = (micros() - loopStart);
 		avgLoopDuration = alpha * avgLoopDuration + (1.f-alpha) * loopDuration;
-		if(millis() % 20 == 0){
+		if(micros() - lastPrint > printInterval){
 			Serial.print("Possible updates per second: ");
-			Serial.println(1000.f/avgLoopDuration);
+			Serial.println(1000000.f/avgLoopDuration);
+			lastPrint = micros();
 		}
 	}
+
 /*
 	Serial.println("X: " + Devices::getInstance().getAccelX(mpu_addr));
 	Serial.println("Y: " + Devices::getInstance().getAccelY(mpu_addr));

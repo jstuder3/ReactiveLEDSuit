@@ -17,7 +17,7 @@ void EffectController::update(){
 			//Serial.println(effects[i]->name);
 		}
 	}
-
+	//Serial.println("Updated all effects");
 	showAll();
 
 }
@@ -42,7 +42,7 @@ void EffectController::clearAll(){
 	for(Adafruit_NeoPixel* strip : Devices::getInstance().strips){
 		strip->clear();
 	}
-	Devices::getInstance().matrix->clear();
+	//Devices::getInstance().matrix->clear();
 }
 
 void EffectController::showAll(){
@@ -50,5 +50,5 @@ void EffectController::showAll(){
 	for(Adafruit_NeoPixel* strip : Devices::getInstance().strips){
 		strip->show();
 	}
-	Devices::getInstance().matrix->show();
+	//Devices::getInstance().matrix->show();
 }

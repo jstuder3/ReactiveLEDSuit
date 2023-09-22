@@ -56,10 +56,10 @@ class MPUCustom{
 	// INLOOP UPDATE
     void update();
 
+    int mpu_addr;
 
   private:
     TwoWire *wire;
-    int mpu_addr;
 	float acc_divisor;
     float accX, accY, accZ, totalAcc;
     float weaklySmoothedTotalAcc, stronglySmoothedTotalAcc;

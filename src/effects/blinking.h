@@ -7,10 +7,10 @@ class Blinking : public Effect {
 
 	public:
 
-		unsigned long onDuration = 100;
-		unsigned long offDuration = 900;
+		unsigned long onDuration = 1000;
+		unsigned long offDuration = 1000;
 		unsigned long totalDuration = onDuration + offDuration;
-		Color color{0, 0, 50};
+		Color color{100, 100, 100};
 
 	public:
 		Blinking(Adafruit_NeoPixel* strip) : Effect("Blinking", strip) {

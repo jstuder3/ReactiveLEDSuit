@@ -7,8 +7,6 @@
 
 void InputController::update(){
 
-    Devices::getInstance().updateSensors();
-
     for(int i = 0; i < NUM_MPUS; i++){
         MPUCustom* mpu = Devices::getInstance().mpus[i];
         float ws_tot = mpu->getWeaklySmoothedTotalAcc();
