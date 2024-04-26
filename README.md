@@ -14,4 +14,6 @@ This repository contains PlatformIO code for a reactive / animated LED suit. It 
 
 ### Behold! -  My amazing circuit diagram:
 
+(note: the tetris blocks represent knock-off WAGO connectors)
+
 ![Example Image Description](Cable%20diagram%20for%20LED%20suit.png)
