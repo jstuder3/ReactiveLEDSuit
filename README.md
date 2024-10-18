@@ -6,7 +6,7 @@ This repository contains PlatformIO code for a reactive / animated LED suit. It 
 
 ### Examples
 
-![image](https://s2.ezgif.com/tmp/ezgif-2-20a4866aaf.gif)
+[Demo Video Link](https://photos.app.goo.gl/9xbgmKj2WWEuajvbA)
 
 ![image](https://github.com/jstuder3/ReactiveLEDSuit/assets/87820315/3a6fb6d5-6bb1-40ef-87d1-5f3a9e65110e)
 
